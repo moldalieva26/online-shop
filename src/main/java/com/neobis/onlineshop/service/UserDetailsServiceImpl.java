@@ -1,8 +1,8 @@
 package com.neobis.onlineshop.service;
 
-import com.neobis.onlineshop.entity.DAOUser;
+import com.neobis.onlineshop.entity.UserEntity;
 import com.neobis.onlineshop.model.UserDTO;
-import com.neobis.onlineshop.repository.UserDao;
+import com.neobis.onlineshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,15 +18,15 @@ import java.util.ArrayList;
 public class UserDetailsServiceImpl implements UserDetailsService { //JwtUserDetailsService
 
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		//DAOUser user = userDao.findByUsername(username); //original
-		DAOUser user = userDao.findByUsername(username); //?
+		//UserEntity user = userDao.findByUsername(username); //original
+		UserEntity user = userRepository.findByUsername(username); //?
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
@@ -34,11 +34,11 @@ public class UserDetailsServiceImpl implements UserDetailsService { //JwtUserDet
 				new ArrayList<>());
 	}
 	
-	public DAOUser save(UserDTO user) { // modified return type
-		DAOUser newUser = new DAOUser();
+	public UserEntity save(UserDTO user) { // modified return type
+		UserEntity newUser = new UserEntity();
 		newUser.setUsername(user.getUsername());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		return userDao.save(newUser); //? casted, original: 		return userDao.save(newUser);
+		return userRepository.save(newUser); //? casted, original: 		return userDao.save(newUser);
  
 	}
 	//
