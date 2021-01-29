@@ -3,7 +3,7 @@ package com.neobis.onlineshop.repository;
 import com.neobis.onlineshop.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
+//error is here?
 
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
